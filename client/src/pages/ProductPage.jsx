@@ -12,6 +12,23 @@ function ProductImagePlaceholder({ product }) {
   const colors = categoryColors[product.category] || { from: '#1a3a5c', to: '#2d5f8a' }
   const icon = categoryIcons[product.category] || '📦'
 
+  // Look for image asset in products public folder first
+  const imagePath = `/images/products/${product.slug}.png`
+  const [imgError, setImgError] = useState(false)
+
+  if (product.image || (!imgError && product.slug)) {
+    return (
+      <div className="w-full h-full min-h-[400px] rounded-2xl flex items-center justify-center relative overflow-hidden bg-white border border-gray-100 p-8 shadow-inner">
+        <img
+          src={product.image || imagePath}
+          alt={product.name}
+          onError={() => setImgError(true)}
+          className="max-h-[360px] object-contain mx-auto"
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       className="w-full h-full min-h-[400px] rounded-2xl flex items-center justify-center relative overflow-hidden"
@@ -30,6 +47,7 @@ function ProductImagePlaceholder({ product }) {
     </div>
   )
 }
+
 
 function RelatedProductCard({ product }) {
   const colors = categoryColors[product.category] || { from: '#1a3a5c', to: '#2d5f8a' }

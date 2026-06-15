@@ -1,8 +1,10 @@
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, ChevronRight, Package, Layers } from 'lucide-react'
+import { useState } from 'react'
 import { navData } from '../data/catalog'
 import { getProductsBySubcategory, getProductsByParentSubcategory, categoryColors, categoryIcons } from '../data/products'
+
 
 // Recursively search navData for a subcategory/category matching the slug
 function findBySlug(slug, data = navData, breadcrumb = []) {
@@ -61,6 +63,9 @@ function ProductCard({ name, category, index }) {
   const { comparedSlugs, toggleCompare } = useCompare()
   const isCompared = comparedSlugs.includes(slug)
 
+  const [imgError, setImgError] = useState(false)
+  const imagePath = `/images/products/${slug}.png`
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -74,19 +79,33 @@ function ProductCard({ name, category, index }) {
       >
         {/* Product image placeholder */}
         <div
-          className="h-44 flex items-center justify-center relative overflow-hidden"
-          style={{ background: `linear-gradient(135deg, ${colors.from}, ${colors.to})` }}
+          className="h-44 flex items-center justify-center relative overflow-hidden bg-white"
         >
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-4 right-4 w-32 h-32 rounded-full border border-white/20" />
-            <div className="absolute bottom-4 left-4 w-20 h-20 rounded-full border border-white/20" />
-          </div>
-          <div className="text-center relative z-10">
-            <div className="text-4xl mb-2 opacity-80">{icon}</div>
-            <div className="text-white/90 text-xs font-medium tracking-wider uppercase">{category}</div>
-          </div>
+          {!imgError ? (
+            <img
+              src={imagePath}
+              alt={name}
+              onError={() => setImgError(true)}
+              className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div
+              className="h-full w-full flex items-center justify-center"
+              style={{ background: `linear-gradient(135deg, ${colors.from}, ${colors.to})` }}
+            >
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-4 right-4 w-32 h-32 rounded-full border border-white/20" />
+                <div className="absolute bottom-4 left-4 w-20 h-20 rounded-full border border-white/20" />
+              </div>
+              <div className="text-center relative z-10">
+                <div className="text-4xl mb-2 opacity-80">{icon}</div>
+                <div className="text-white/90 text-xs font-medium tracking-wider uppercase">{category}</div>
+              </div>
+            </div>
+          )}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
         </div>
+
 
         <div className="p-4 pb-2">
           <h3 className="font-bold text-[#1a3a5c] text-sm mb-1 group-hover:text-[#e8421a] transition-colors" style={{ fontFamily: 'Rajdhani' }}>
