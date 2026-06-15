@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+    
+    <defs>
+      <!-- Background Gradients -->
+      <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fafbfc"/>
+        <stop offset="100%" stop-color="#f1f5f9"/>
+      </linearGradient>
+      <linearGradient id="grid-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.2"/>
+      </linearGradient>
+      
+      <!-- General Metal Gradients -->
+      <linearGradient id="metal-body" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#475569"/>
+        <stop offset="25%" stop-color="#64748b"/>
+        <stop offset="50%" stop-color="#94a3b8"/>
+        <stop offset="75%" stop-color="#64748b"/>
+        <stop offset="100%" stop-color="#334155"/>
+      </linearGradient>
+      <linearGradient id="steel-block" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#cbd5e1"/>
+        <stop offset="50%" stop-color="#94a3b8"/>
+        <stop offset="100%" stop-color="#475569"/>
+      </linearGradient>
+      <linearGradient id="brass-block" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="50%" stop-color="#eab308"/>
+        <stop offset="100%" stop-color="#ca8a04"/>
+      </linearGradient>
+      <linearGradient id="gold-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="50%" stop-color="#eab308"/>
+        <stop offset="100%" stop-color="#a16207"/>
+      </linearGradient>
+      
+      <!-- Glow Filters -->
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+      <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.15" />
+      </filter>
+      
+      <!-- Tech Grid Pattern -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="url(#grid-grad)" stroke-width="0.75" />
+        <circle cx="40" cy="40" r="1" fill="#cbd5e1" opacity="0.5" />
+      </pattern>
+    </defs>
+    
+    <!-- Workbench Canvas -->
+    <rect width="800" height="600" fill="url(#bg-grad)" />
+    <rect width="800" height="600" fill="url(#grid)" />
+    
+    <!-- Outer Technical Frame -->
+    <rect x="20" y="20" width="760" height="560" rx="12" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="10 5" opacity="0.6"/>
+    
+    <!-- CAD Labels -->
+    <text x="40" y="45" font-family="'Rajdhani', sans-serif" font-size="12" font-weight="bold" fill="#1a3a5c" letter-spacing="2">UCOMAX ENGINEERING SOLUTIONS</text>
+    <text x="40" y="565" font-family="monospace" font-size="10" fill="#64748b">SCALE: N.T.S. | TECHNICAL SCHEMATIC</text>
+    <text x="760" y="45" font-family="monospace" font-size="10" fill="#e8421a" font-weight="bold" text-anchor="end">SYS_STATUS: ACTIVE</text>
+    <text x="760" y="565" font-family="monospace" font-size="10" fill="#64748b" text-anchor="end">ID: METSCOPE-ULTRA</text>
+    
+    <!-- Product Heading Overlay -->
+    <text x="40" y="80" font-family="'Rajdhani', sans-serif" font-size="28" font-weight="bold" fill="#1e293b">Metscope Ultra</text>
+    <text x="40" y="102" font-family="sans-serif" font-size="11" font-weight="bold" fill="#e8421a" letter-spacing="1.5">MICROSCOPE • METSCOPE-ULTRA</text>
+  
+    <g transform="translate(100, 40)" filter="url(#soft-shadow)">
+      
+      <path d="M 150 480 L 350 480 L 370 510 L 130 510 Z" fill="url(#metal-body)" stroke="#1e293b" stroke-width="2"/>
+      <rect x="235" y="180" width="30" height="300" fill="url(#metal-body)" stroke="#1e293b" stroke-width="1.5"/>
+      <rect x="140" y="340" width="220" height="20" rx="3" fill="#1e293b"/>
+      <path d="M 280 180 L 350 110 L 390 110 L 350 180 Z" fill="url(#metal-body)"/>
+      <rect x="355" y="80" width="14" height="35" fill="#0f172a" transform="rotate(30 355 80)"/>
+      <rect x="375" y="80" width="14" height="35" fill="#0f172a" transform="rotate(30 375 80)"/>
+      <rect x="325" y="80" width="20" height="30" fill="url(#metal-body)"/>
+    
+    </g>
+  </svg>

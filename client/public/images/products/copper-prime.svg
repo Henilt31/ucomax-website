@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+    
+    <defs>
+      <!-- Background Gradients -->
+      <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fafbfc"/>
+        <stop offset="100%" stop-color="#f1f5f9"/>
+      </linearGradient>
+      <linearGradient id="grid-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.2"/>
+      </linearGradient>
+      
+      <!-- General Metal Gradients -->
+      <linearGradient id="metal-body" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#475569"/>
+        <stop offset="25%" stop-color="#64748b"/>
+        <stop offset="50%" stop-color="#94a3b8"/>
+        <stop offset="75%" stop-color="#64748b"/>
+        <stop offset="100%" stop-color="#334155"/>
+      </linearGradient>
+      <linearGradient id="steel-block" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#cbd5e1"/>
+        <stop offset="50%" stop-color="#94a3b8"/>
+        <stop offset="100%" stop-color="#475569"/>
+      </linearGradient>
+      <linearGradient id="brass-block" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="50%" stop-color="#eab308"/>
+        <stop offset="100%" stop-color="#ca8a04"/>
+      </linearGradient>
+      <linearGradient id="gold-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="50%" stop-color="#eab308"/>
+        <stop offset="100%" stop-color="#a16207"/>
+      </linearGradient>
+      
+      <!-- Glow Filters -->
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+      <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.15" />
+      </filter>
+      
+      <!-- Tech Grid Pattern -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="url(#grid-grad)" stroke-width="0.75" />
+        <circle cx="40" cy="40" r="1" fill="#cbd5e1" opacity="0.5" />
+      </pattern>
+    </defs>
+    
+    <!-- Workbench Canvas -->
+    <rect width="800" height="600" fill="url(#bg-grad)" />
+    <rect width="800" height="600" fill="url(#grid)" />
+    
+    <!-- Outer Technical Frame -->
+    <rect x="20" y="20" width="760" height="560" rx="12" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="10 5" opacity="0.6"/>
+    
+    <!-- CAD Labels -->
+    <text x="40" y="45" font-family="'Rajdhani', sans-serif" font-size="12" font-weight="bold" fill="#1a3a5c" letter-spacing="2">UCOMAX ENGINEERING SOLUTIONS</text>
+    <text x="40" y="565" font-family="monospace" font-size="10" fill="#64748b">SCALE: N.T.S. | TECHNICAL SCHEMATIC</text>
+    <text x="760" y="45" font-family="monospace" font-size="10" fill="#e8421a" font-weight="bold" text-anchor="end">SYS_STATUS: ACTIVE</text>
+    <text x="760" y="565" font-family="monospace" font-size="10" fill="#64748b" text-anchor="end">ID: COPPER-PRIME</text>
+    
+    <!-- Product Heading Overlay -->
+    <text x="40" y="80" font-family="'Rajdhani', sans-serif" font-size="28" font-weight="bold" fill="#1e293b">Copper Prime</text>
+    <text x="40" y="102" font-family="sans-serif" font-size="11" font-weight="bold" fill="#e8421a" letter-spacing="1.5">SOFTWARE • COPPER-PRIME</text>
+  
+    
+    <g transform="translate(80, 80)" filter="url(#soft-shadow)">
+      <rect x="0" y="0" width="640" height="400" rx="10" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+      
+      <!-- Window Bar -->
+      <path d="M 0 10 A 10 10 0 0 1 10 0 L 630 0 A 10 10 0 0 1 640 10 L 640 40 L 0 40 Z" fill="#1e293b"/>
+      <circle cx="20" cy="20" r="6" fill="#ef4444"/>
+      <circle cx="40" cy="20" r="6" fill="#f59e0b"/>
+      <circle cx="60" cy="20" r="6" fill="#10b981"/>
+      <text x="320" y="25" font-family="'Rajdhani', sans-serif" font-size="14" font-weight="bold" fill="#94a3b8" text-anchor="middle">Copper Prime</text>
+
+      <!-- Sidebar -->
+      <rect x="0" y="40" width="120" height="360" fill="#111827"/>
+      <rect x="10" y="60" width="100" height="22" rx="4" fill="#e8421a"/>
+      <text x="20" y="75" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff">Workspace</text>
+
+      <!-- Main viewport -->
+      <rect x="135" y="55" width="320" height="230" rx="6" fill="#020617" stroke="#1e293b" stroke-width="2"/>
+      
+      <!-- Customized graphic view -->
+      
+      <polygon points="180,80 230,70 250,110 200,120" fill="none" stroke="#f59e0b" stroke-width="2"/>
+      <polygon points="200,120 250,110 240,160 170,150" fill="none" stroke="#f59e0b" stroke-width="2"/>
+      <polygon points="250,110 320,100 330,150 240,160" fill="none" stroke="#f59e0b" stroke-width="2"/>
+      <text x="330" y="90" font-family="monospace" font-size="9" fill="#f59e0b">G_SIZE: G8.5 (ASTM)</text>
+    
+
+      <!-- Status tag -->
+      <text x="145" y="270" font-family="monospace" font-size="9" fill="#10b981" font-weight="bold">> COPPER GRAIN SIZE EVALUATION</text>
+      
+      <!-- Right Side Panel -->
+      <rect x="470" y="55" width="155" height="230" rx="6" fill="#1e293b"/>
+      <text x="480" y="75" font-family="sans-serif" font-size="10" font-weight="bold" fill="#cbd5e1">DATA EXPORT</text>
+      <rect x="480" y="90" width="135" height="30" rx="3" fill="#0f172a"/>
+      <text x="490" y="110" font-family="monospace" font-size="9" fill="#ef4444">GENERATE PDF</text>
+      <rect x="480" y="130" width="135" height="30" rx="3" fill="#0f172a"/>
+      <text x="490" y="150" font-family="monospace" font-size="9" fill="#38bdf8">EXPORT CSV</text>
+    </g>
+  </svg>

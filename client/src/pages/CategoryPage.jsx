@@ -1,7 +1,7 @@
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, ChevronRight, Package, Layers } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { navData } from '../data/catalog'
 import { getProductsBySubcategory, getProductsByParentSubcategory, categoryColors, categoryIcons } from '../data/products'
 
@@ -63,8 +63,22 @@ function ProductCard({ name, category, index }) {
   const { comparedSlugs, toggleCompare } = useCompare()
   const isCompared = comparedSlugs.includes(slug)
 
+  const [imgSrc, setImgSrc] = useState(`/images/products/${slug}.png`)
   const [imgError, setImgError] = useState(false)
-  const imagePath = `/images/products/${slug}.png`
+
+  const handleImageError = () => {
+    if (imgSrc.endsWith('.png')) {
+      setImgSrc(`/images/products/${slug}.svg`)
+    } else {
+      imgError || setImgError(true)
+    }
+  }
+
+  // If slug changes, reset image path
+  useEffect(() => {
+    setImgSrc(`/images/products/${slug}.png`)
+    setImgError(false)
+  }, [slug])
 
   return (
     <motion.div
@@ -83,9 +97,9 @@ function ProductCard({ name, category, index }) {
         >
           {!imgError ? (
             <img
-              src={imagePath}
+              src={imgSrc}
               alt={name}
-              onError={() => setImgError(true)}
+              onError={handleImageError}
               className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
             />
           ) : (

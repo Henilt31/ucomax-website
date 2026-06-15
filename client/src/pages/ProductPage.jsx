@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, Phone, Mail, ChevronRight, CheckCircle2, ArrowRight, Columns, Download, Eye, FileText } from 'lucide-react'
 import { getProductBySlug, getRelatedProducts, categoryColors, categoryIcons } from '../data/products'
 import { useEffect, useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 // Enhancement Layer Imports
 import { useAnalytics } from '../hooks/useAnalytics'
@@ -12,17 +13,31 @@ function ProductImagePlaceholder({ product }) {
   const colors = categoryColors[product.category] || { from: '#1a3a5c', to: '#2d5f8a' }
   const icon = categoryIcons[product.category] || '📦'
 
-  // Look for image asset in products public folder first
-  const imagePath = `/images/products/${product.slug}.png`
+  // Try PNG first, then SVG, then fallback to gradient
+  const [imgSrc, setImgSrc] = useState(`/images/products/${product.slug}.png`)
   const [imgError, setImgError] = useState(false)
+
+  const handleImageError = () => {
+    if (imgSrc.endsWith('.png')) {
+      setImgSrc(`/images/products/${product.slug}.svg`)
+    } else {
+      setImgError(true)
+    }
+  };
+
+  // Keep imgSrc updated if the slug changes
+  useEffect(() => {
+    setImgSrc(`/images/products/${product.slug}.png`)
+    setImgError(false)
+  }, [product.slug])
 
   if (product.image || (!imgError && product.slug)) {
     return (
       <div className="w-full h-full min-h-[400px] rounded-2xl flex items-center justify-center relative overflow-hidden bg-white border border-gray-100 p-8 shadow-inner">
         <img
-          src={product.image || imagePath}
+          src={product.image || imgSrc}
           alt={product.name}
-          onError={() => setImgError(true)}
+          onError={handleImageError}
           className="max-h-[360px] object-contain mx-auto"
         />
       </div>
@@ -53,19 +68,46 @@ function RelatedProductCard({ product }) {
   const colors = categoryColors[product.category] || { from: '#1a3a5c', to: '#2d5f8a' }
   const icon = categoryIcons[product.category] || '📦'
 
+  const [imgSrc, setImgSrc] = useState(`/images/products/${product.slug}.png`)
+  const [imgError, setImgError] = useState(false)
+
+  const handleImageError = () => {
+    if (imgSrc.endsWith('.png')) {
+      setImgSrc(`/images/products/${product.slug}.svg`)
+    } else {
+      setImgError(true)
+    }
+  }
+
+  useEffect(() => {
+    setImgSrc(`/images/products/${product.slug}.png`)
+    setImgError(false)
+  }, [product.slug])
+
   return (
     <Link
       to={`/product/${product.slug}`}
       className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 hover:border-[#e8421a]/30 transition-all group"
     >
-      <div
-        className="h-32 flex items-center justify-center"
-        style={{ background: `linear-gradient(135deg, ${colors.from}, ${colors.to})` }}
-      >
-        <div className="text-3xl opacity-70">{icon}</div>
+      <div className="h-32 flex items-center justify-center bg-white relative overflow-hidden p-3">
+        {!imgError ? (
+          <img
+            src={imgSrc}
+            alt={product.name}
+            onError={handleImageError}
+            className="h-full w-full object-contain group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: `linear-gradient(135deg, ${colors.from}, ${colors.to})` }}
+          >
+            <div className="text-3xl opacity-70">{icon}</div>
+          </div>
+        )}
       </div>
-      <div className="p-4">
-        <h4 className="font-bold text-[#1a3a5c] text-sm group-hover:text-[#e8421a] transition-colors" style={{ fontFamily: 'Rajdhani' }}>
+      <div className="p-4 border-t border-gray-50">
+        <h4 className="font-bold text-[#1a3a5c] text-sm group-hover:text-[#e8421a] transition-colors line-clamp-1" style={{ fontFamily: 'Rajdhani' }}>
           {product.name}
         </h4>
         <p className="text-gray-400 text-xs mt-1 line-clamp-1">{product.shortDescription}</p>

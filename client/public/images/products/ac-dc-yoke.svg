@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+    
+    <defs>
+      <!-- Background Gradients -->
+      <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fafbfc"/>
+        <stop offset="100%" stop-color="#f1f5f9"/>
+      </linearGradient>
+      <linearGradient id="grid-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.2"/>
+      </linearGradient>
+      
+      <!-- General Metal Gradients -->
+      <linearGradient id="metal-body" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#475569"/>
+        <stop offset="25%" stop-color="#64748b"/>
+        <stop offset="50%" stop-color="#94a3b8"/>
+        <stop offset="75%" stop-color="#64748b"/>
+        <stop offset="100%" stop-color="#334155"/>
+      </linearGradient>
+      <linearGradient id="steel-block" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#cbd5e1"/>
+        <stop offset="50%" stop-color="#94a3b8"/>
+        <stop offset="100%" stop-color="#475569"/>
+      </linearGradient>
+      <linearGradient id="brass-block" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="50%" stop-color="#eab308"/>
+        <stop offset="100%" stop-color="#ca8a04"/>
+      </linearGradient>
+      <linearGradient id="gold-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="50%" stop-color="#eab308"/>
+        <stop offset="100%" stop-color="#a16207"/>
+      </linearGradient>
+      
+      <!-- Glow Filters -->
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+      <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.15" />
+      </filter>
+      
+      <!-- Tech Grid Pattern -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="url(#grid-grad)" stroke-width="0.75" />
+        <circle cx="40" cy="40" r="1" fill="#cbd5e1" opacity="0.5" />
+      </pattern>
+    </defs>
+    
+    <!-- Workbench Canvas -->
+    <rect width="800" height="600" fill="url(#bg-grad)" />
+    <rect width="800" height="600" fill="url(#grid)" />
+    
+    <!-- Outer Technical Frame -->
+    <rect x="20" y="20" width="760" height="560" rx="12" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="10 5" opacity="0.6"/>
+    
+    <!-- CAD Labels -->
+    <text x="40" y="45" font-family="'Rajdhani', sans-serif" font-size="12" font-weight="bold" fill="#1a3a5c" letter-spacing="2">UCOMAX ENGINEERING SOLUTIONS</text>
+    <text x="40" y="565" font-family="monospace" font-size="10" fill="#64748b">SCALE: N.T.S. | TECHNICAL SCHEMATIC</text>
+    <text x="760" y="45" font-family="monospace" font-size="10" fill="#e8421a" font-weight="bold" text-anchor="end">SYS_STATUS: ACTIVE</text>
+    <text x="760" y="565" font-family="monospace" font-size="10" fill="#64748b" text-anchor="end">ID: AC-DC-YOKE</text>
+    
+    <!-- Product Heading Overlay -->
+    <text x="40" y="80" font-family="'Rajdhani', sans-serif" font-size="28" font-weight="bold" fill="#1e293b">AC/DC Yoke</text>
+    <text x="40" y="102" font-family="sans-serif" font-size="11" font-weight="bold" fill="#e8421a" letter-spacing="1.5">NDT PRODUCTS • AC-DC-YOKE</text>
+  
+    
+    <g transform="translate(100, 20)" filter="url(#soft-shadow)">
+      <!-- Steel Specimen -->
+      <rect x="100" y="420" width="400" height="40" rx="4" fill="url(#steel-block)" stroke="#334155" stroke-width="2"/>
+      <line x1="300" y1="420" x2="300" y2="460" stroke="#475569" stroke-width="4" stroke-dasharray="2 2"/>
+      
+      <!-- Magnetic Field Lines -->
+      <path d="M 180 400 Q 300 280 420 400" fill="none" stroke="#e8421a" stroke-width="3" stroke-dasharray="5 5" opacity="0.8" filter="url(#glow)"/>
+      <path d="M 180 410 Q 300 320 420 410" fill="none" stroke="#fef08a" stroke-width="2" opacity="0.6" filter="url(#glow)"/>
+      
+      <!-- Yoke Legs -->
+      <rect x="150" y="280" width="60" height="130" rx="8" fill="url(#metal-body)" stroke="#1e293b" stroke-width="2"/>
+      <rect x="390" y="280" width="60" height="130" rx="8" fill="url(#metal-body)" stroke="#1e293b" stroke-width="2"/>
+      
+      <!-- Joints -->
+      <circle cx="180" cy="300" r="14" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+      <circle cx="180" cy="300" r="6" fill="#cbd5e1"/>
+      <circle cx="420" cy="300" r="14" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+      <circle cx="420" cy="300" r="6" fill="#cbd5e1"/>
+
+      <!-- Main Yoke Body -->
+      <path d="M 180 180 L 420 180 L 420 280 L 370 280 L 370 230 L 230 230 L 230 280 L 180 280 Z" fill="#475569" stroke="#1e293b" stroke-width="3"/>
+      
+      <!-- Product Label -->
+      <rect x="240" y="195" width="120" height="25" rx="3" fill="#020617"/>
+      <text x="300" y="211" font-family="'Rajdhani', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">AC/DC Yoke</text>
+
+      <!-- Center Handle -->
+      <rect x="270" y="100" width="60" height="80" rx="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+      
+      <rect x="280" y="125" width="40" height="12" rx="3" fill="#ef4444"/><circle cx="300" cy="131" r="3" fill="#1e293b"/>
+      
+      
+    <!-- Power Cord -->
+    <path d="M 300 100 Q 300 50 200 60 T 80 120" fill="none" stroke="#1e293b" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 300 100 Q 300 50 200 60 T 80 120" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5"/>
+  
+      
+    </g>
+    
+    <!-- Annotations -->
+    <g font-family="monospace" font-size="10" fill="#475569">
+      <line x1="220" y1="210" x2="160" y2="210" stroke="#94a3b8" stroke-width="1"/>
+      <circle cx="220" cy="210" r="3" fill="#e8421a"/>
+      <text x="150" y="214" text-anchor="end">AC/DC Dual Field</text>
+    </g>
+  </svg>

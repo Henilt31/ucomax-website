@@ -1408,9 +1408,39 @@ export function getAllProducts() {
 export function getRelatedProducts(slug, limit = 4) {
   const product = getProductBySlug(slug)
   if (!product) return []
-  return products
-    .filter(p => p.slug !== slug && (p.subcategory === product.subcategory || p.category === product.category))
-    .slice(0, limit)
+  
+  const related = []
+  
+  // 1. Match by parentSubcategory (e.g. Cable, PAUT Wedges, Encoders)
+  if (product.parentSubcategory) {
+    const sameParent = products.filter(p => 
+      p.slug !== slug && 
+      p.parentSubcategory === product.parentSubcategory
+    )
+    related.push(...sameParent)
+  }
+  
+  // 2. Fill with subcategory matches if needed
+  if (related.length < limit) {
+    const sameSub = products.filter(p => 
+      p.slug !== slug && 
+      p.subcategory === product.subcategory &&
+      !related.some(r => r.slug === p.slug)
+    )
+    related.push(...sameSub)
+  }
+  
+  // 3. Fallback to category matches
+  if (related.length < limit) {
+    const sameCat = products.filter(p => 
+      p.slug !== slug && 
+      p.category === product.category &&
+      !related.some(r => r.slug === p.slug)
+    )
+    related.push(...sameCat)
+  }
+  
+  return related.slice(0, limit)
 }
 
 // Category icon mapping for placeholder images

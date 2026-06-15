@@ -1,8 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ArrowRight, ArrowLeft, RefreshCw, Check } from 'lucide-react'
 import { industries, applications, requirements, findProducts } from '../data/productFinder'
 import { getProductBySlug, categoryColors, categoryIcons } from '../data/products'
+
+function FinderProductImage({ slug, name, category }) {
+  const colors = categoryColors[category] || { from: '#1a3a5c', to: '#2d5f8a' }
+  const icon = categoryIcons[category] || '📦'
+  
+  const [imgSrc, setImgSrc] = useState(`/images/products/${slug}.png`)
+  const [imgError, setImgError] = useState(false)
+
+  const handleImageError = () => {
+    if (imgSrc.endsWith('.png')) {
+      setImgSrc(`/images/products/${slug}.svg`)
+    } else {
+      setImgError(true)
+    }
+  }
+
+  useEffect(() => {
+    setImgSrc(`/images/products/${slug}.png`)
+    setImgError(false)
+  }, [slug])
+
+  return (
+    <div className="w-full sm:w-28 h-28 rounded-lg flex items-center justify-center bg-white border border-gray-100 p-2 flex-shrink-0 overflow-hidden relative">
+      {!imgError ? (
+        <img
+          src={imgSrc}
+          alt={name}
+          onError={handleImageError}
+          className="h-full w-full object-contain"
+        />
+      ) : (
+        <div
+          className="w-full h-full rounded-lg flex items-center justify-center text-white text-3xl"
+          style={{ background: `linear-gradient(135deg, ${colors.from}, ${colors.to})` }}
+        >
+          {icon}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function ProductFinder({ isOpen, onClose, onOpenRFQ, onProductSelect }) {
   const [step, setStep] = useState(1)
@@ -184,12 +225,7 @@ export default function ProductFinder({ isOpen, onClose, onOpenRFQ, onProductSel
                         const icon = categoryIcons[prod.category] || '📦'
                         return (
                           <div key={prod.slug} className="flex flex-col sm:flex-row gap-4 border border-gray-100 rounded-xl p-4 hover:shadow-md transition-shadow">
-                            <div
-                              className="w-full sm:w-28 h-28 rounded-lg flex items-center justify-center text-white text-3xl flex-shrink-0"
-                              style={{ background: `linear-gradient(135deg, ${colors.from}, ${colors.to})` }}
-                            >
-                              {icon}
-                            </div>
+                            <FinderProductImage slug={prod.slug} name={prod.name} category={prod.category} />
                             <div className="flex-1 flex flex-col justify-between">
                               <div>
                                 <h4 className="font-bold text-[#1a3a5c] text-lg leading-tight" style={{ fontFamily: 'Rajdhani' }}>{prod.name}</h4>
