@@ -51,21 +51,26 @@ function productSlug(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '')
 }
 
+import { useCompare } from '../components/CompareSystem'
+
 // Product card component with gradient placeholder
 function ProductCard({ name, category, index }) {
   const slug = productSlug(name)
   const colors = categoryColors[category] || { from: '#1a3a5c', to: '#2d5f8a' }
   const icon = categoryIcons[category] || '📦'
+  const { comparedSlugs, toggleCompare } = useCompare()
+  const isCompared = comparedSlugs.includes(slug)
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 hover:border-[#e8421a]/30 transition-all group relative"
     >
       <Link
         to={`/product/${slug}`}
-        className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 hover:border-[#e8421a]/30 transition-all group"
+        className="block"
       >
         {/* Product image placeholder */}
         <div
@@ -83,7 +88,7 @@ function ProductCard({ name, category, index }) {
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
         </div>
 
-        <div className="p-4">
+        <div className="p-4 pb-2">
           <h3 className="font-bold text-[#1a3a5c] text-sm mb-1 group-hover:text-[#e8421a] transition-colors" style={{ fontFamily: 'Rajdhani' }}>
             {name}
           </h3>
@@ -92,9 +97,22 @@ function ProductCard({ name, category, index }) {
           </div>
         </div>
       </Link>
+
+      <div className="p-4 pt-0 flex items-center justify-between border-t border-gray-50 mt-2">
+        <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={isCompared}
+            onChange={() => toggleCompare(slug)}
+            className="rounded border-gray-300 text-[#e8421a] focus:ring-[#e8421a]"
+          />
+          Compare
+        </label>
+      </div>
     </motion.div>
   )
 }
+
 
 // Subcategory card (for categories with nested sub-items)
 function SubcategoryCard({ item, category, index }) {

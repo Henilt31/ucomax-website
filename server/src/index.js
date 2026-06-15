@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit')
 const mongoose = require('mongoose')
 const nodemailer = require('nodemailer')
 const { body, validationResult } = require('express-validator')
-const { Quote, Contact } = require('./models')
+const { Quote, Contact, Rfq, AnalyticsEvent } = require('./models')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 // Rate limiter for form endpoints
 const formLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max: 20,
+  max: 50, // raised limit to allow analytics tracking comfortably
   message: { error: 'Too many requests. Please try again later.' }
 })
 
@@ -60,6 +60,74 @@ async function sendMail(subject, html) {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date() })
 })
+
+// Analytics track endpoint
+app.post('/api/analytics', async (req, res) => {
+  try {
+    const { eventType, eventData } = req.body
+    if (!eventType) return res.status(400).json({ error: 'eventType is required' })
+
+    const event = await AnalyticsEvent.create({ eventType, eventData })
+    res.json({ success: true, id: event._id })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
+// RFQ submission endpoint
+app.post('/api/rfq',
+  formLimiter,
+  [
+    body('companyName').trim().notEmpty().withMessage('Company Name is required'),
+    body('contactPerson').trim().notEmpty().withMessage('Contact Person is required'),
+    body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+    body('phone').trim().notEmpty().withMessage('Phone is required'),
+    body('industry').trim().notEmpty().withMessage('Industry is required'),
+    body('products').isArray({ min: 1 }).withMessage('At least one product must be selected'),
+    body('quantity').isInt({ min: 1 }).withMessage('Quantity must be at least 1')
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+    try {
+      const { companyName, contactPerson, email, phone, country, industry, products, quantity, requirements } = req.body
+      const rfq = await Rfq.create({
+        companyName,
+        contactPerson,
+        email,
+        phone,
+        country: country || '+91',
+        industry,
+        products,
+        quantity,
+        requirements
+      })
+
+      // Send email summary
+      await sendMail(
+        `New Advanced RFQ from ${companyName}`,
+        `<h2>New RFQ Received</h2>
+        <p><strong>Company Name:</strong> ${companyName}</p>
+        <p><strong>Contact Person:</strong> ${contactPerson}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${country} ${phone}</p>
+        <p><strong>Industry:</strong> ${industry}</p>
+        <p><strong>Products to Quote:</strong> ${products.join(', ')}</p>
+        <p><strong>Quantity:</strong> ${quantity}</p>
+        <p><strong>Additional Requirements:</strong></p>
+        <p>${requirements || 'None'}</p>
+        <p><strong>Time:</strong> ${new Date().toLocaleString('en-IN')}</p>`
+      )
+
+      res.json({ success: true, id: rfq._id })
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ error: 'Internal server error' })
+    }
+  }
+)
 
 // Quote request
 app.post('/api/quote',
@@ -151,7 +219,28 @@ app.get('/api/admin/contacts', async (req, res) => {
   }
 })
 
+// Admin: get all RFQs
+app.get('/api/admin/rfqs', async (req, res) => {
+  try {
+    const rfqs = await Rfq.find().sort({ createdAt: -1 }).limit(100)
+    res.json(rfqs)
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
+// Admin: get analytics events
+app.get('/api/admin/analytics', async (req, res) => {
+  try {
+    const events = await AnalyticsEvent.find().sort({ createdAt: -1 }).limit(500)
+    res.json(events)
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
 // ─── Start ────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🚀 Ucomax server running on port ${PORT}`)
 })
+

@@ -1,7 +1,12 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Phone, Mail, ChevronRight, CheckCircle2, ArrowRight } from 'lucide-react'
+import { ArrowLeft, Phone, Mail, ChevronRight, CheckCircle2, ArrowRight, Columns, Download, Eye, FileText } from 'lucide-react'
 import { getProductBySlug, getRelatedProducts, categoryColors, categoryIcons } from '../data/products'
+import { useEffect, useState } from 'react'
+
+// Enhancement Layer Imports
+import { useAnalytics } from '../hooks/useAnalytics'
+import { useCompare } from '../components/CompareSystem'
 
 function ProductImagePlaceholder({ product }) {
   const colors = categoryColors[product.category] || { from: '#1a3a5c', to: '#2d5f8a' }
@@ -51,12 +56,22 @@ function RelatedProductCard({ product }) {
   )
 }
 
-export default function ProductPage({ onQuoteOpen }) {
+export default function ProductPage({ onQuoteOpen, onOpenRFQ }) {
   const { slug } = useParams()
   const navigate = useNavigate()
+  const analytics = useAnalytics()
+  const { comparedSlugs, toggleCompare } = useCompare()
+  const [activeResTab, setActiveResTab] = useState('datasheet')
 
   const product = getProductBySlug(slug)
   const relatedProducts = product ? getRelatedProducts(slug, 4) : []
+
+  // Log product view
+  useEffect(() => {
+    if (product) {
+      analytics.trackProductView(product.slug, product.name)
+    }
+  }, [slug, product])
 
   // Fallback for products not yet in database
   if (!product) {
@@ -90,7 +105,7 @@ export default function ProductPage({ onQuoteOpen }) {
                 Ucomax's {fallbackName} is engineered to deliver precision and reliability for demanding industrial applications. Built to the highest quality standards with ISO certification.
               </p>
               <div className="flex flex-wrap gap-4">
-                <button onClick={onQuoteOpen} className="bg-[#e8421a] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c93614] transition-colors">Request Quote</button>
+                <button onClick={() => onOpenRFQ([fallbackName])} className="bg-[#e8421a] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c93614] transition-colors">Request Quote (RFQ)</button>
                 <a href="tel:+916358833112" className="flex items-center gap-2 border border-[#1a3a5c] text-[#1a3a5c] px-6 py-3 rounded-lg font-semibold hover:bg-[#1a3a5c] hover:text-white transition-colors">
                   <Phone size={16} /> Call Us
                 </a>
@@ -102,6 +117,8 @@ export default function ProductPage({ onQuoteOpen }) {
       </div>
     )
   }
+
+  const isCompared = comparedSlugs.includes(product.slug)
 
   return (
     <div>
@@ -140,8 +157,21 @@ export default function ProductPage({ onQuoteOpen }) {
               <ArrowLeft size={14} /> Back
             </button>
 
-            <div className="inline-block bg-[#e8421a]/10 text-[#e8421a] text-xs font-bold px-3 py-1 rounded-full mb-3 tracking-wide uppercase">
-              {product.category}
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-3">
+              <div className="inline-block bg-[#e8421a]/10 text-[#e8421a] text-xs font-bold px-3 py-1 rounded-full tracking-wide uppercase">
+                {product.category}
+              </div>
+
+              {/* Compare Checkbox */}
+              <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer select-none border border-gray-200 rounded-lg px-2.5 py-1 hover:bg-gray-50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={isCompared}
+                  onChange={() => toggleCompare(product.slug)}
+                  className="rounded border-gray-300 text-[#e8421a] focus:ring-[#e8421a]"
+                />
+                Add to Compare
+              </label>
             </div>
 
             <h1 className="text-3xl md:text-4xl font-bold text-[#1a3a5c] mb-3" style={{ fontFamily: 'Rajdhani' }}>
@@ -169,10 +199,10 @@ export default function ProductPage({ onQuoteOpen }) {
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-3 mb-6">
               <button
-                onClick={onQuoteOpen}
+                onClick={() => onOpenRFQ([product.name])}
                 className="bg-[#e8421a] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c93614] transition-colors shadow-md hover:shadow-lg"
               >
-                Request Quote
+                Request Quote (RFQ)
               </button>
               <a
                 href="tel:+916358833112"
@@ -201,6 +231,49 @@ export default function ProductPage({ onQuoteOpen }) {
               </a>
             </div>
           </motion.div>
+        </div>
+
+        {/* Technical Resource tabs for this product */}
+        <div className="mt-14 border-t border-gray-200 pt-8">
+          <h3 className="text-2xl font-bold text-[#1a3a5c] mb-4" style={{ fontFamily: 'Rajdhani' }}>Product Documentation</h3>
+          <div className="flex border-b border-gray-100 gap-4 mb-4">
+            {['datasheet', 'brochure', 'user manual'].map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveResTab(tab)}
+                className={`py-2 px-1 text-sm font-semibold capitalize border-b-2 transition-colors ${
+                  activeResTab === tab ? 'border-[#e8421a] text-[#e8421a]' : 'border-transparent text-gray-400 hover:text-[#1a3a5c]'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-[#e8421a]/10 text-[#e8421a] rounded-lg flex items-center justify-center">
+                <FileText size={24} />
+              </div>
+              <div>
+                <h4 className="font-bold text-[#1a3a5c]" style={{ fontFamily: 'Rajdhani' }}>
+                  {product.name} {activeResTab}
+                </h4>
+                <p className="text-xs text-gray-400">PDF document • 1.5 MB</p>
+              </div>
+            </div>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button
+                onClick={() => {
+                  analytics.trackResourceDownload(`${product.name} ${activeResTab}`, product.category)
+                  toast.success('Document download initiated.')
+                }}
+                className="flex-1 sm:flex-initial bg-[#1a3a5c] text-white hover:bg-[#15304e] px-4 py-2 rounded text-xs font-bold transition-colors flex items-center justify-center gap-1.5"
+              >
+                <Download size={14} /> Download PDF
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Specifications Table */}
@@ -259,3 +332,4 @@ export default function ProductPage({ onQuoteOpen }) {
     </div>
   )
 }
+

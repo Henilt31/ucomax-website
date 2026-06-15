@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X, Phone, Mail, ChevronDown, ChevronRight, Menu } from 'lucide-react'
 import { navData } from '../data/catalog'
 
-export default function Navbar({ onQuoteOpen }) {
+export default function Navbar({ onQuoteOpen, onRFQOpen, onFinderOpen }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -41,7 +41,11 @@ export default function Navbar({ onQuoteOpen }) {
             <Mail size={13} /> sales@ucomax.com
           </a>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 text-xs">
+          <button onClick={onFinderOpen} className="text-[#e8421a] hover:text-[#c93614] font-bold uppercase tracking-wider transition-colors">
+            🔍 Product Finder Wizard
+          </button>
+          <Link to="/resources" className="hover:text-[#e8421a] transition-colors">Resource Center</Link>
           <Link to="/about" className="hover:text-[#e8421a] transition-colors">About us</Link>
           <div className="flex gap-3">
             <a href="https://www.facebook.com/Ucomax.India/" target="_blank" rel="noreferrer" className="hover:text-[#e8421a] transition-colors">
@@ -179,10 +183,10 @@ export default function Navbar({ onQuoteOpen }) {
               <Search size={20} />
             </button>
             <button
-              onClick={onQuoteOpen}
-              className="hidden sm:block bg-[#e8421a] text-white px-4 py-2 text-sm font-semibold rounded hover:bg-[#c93614] transition-colors"
+              onClick={() => onRFQOpen()}
+              className="hidden sm:block bg-[#e8421a] text-white px-4 py-2 text-sm font-semibold rounded hover:bg-[#c93614] transition-colors shadow-sm"
             >
-              Get Quote
+              Request Quote (RFQ)
             </button>
             <button
               className="lg:hidden p-2 text-[#1a3a5c]"
@@ -193,6 +197,7 @@ export default function Navbar({ onQuoteOpen }) {
           </div>
         </div>
       </nav>
+
 
       {/* Search overlay */}
       <AnimatePresence>

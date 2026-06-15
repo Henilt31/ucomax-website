@@ -21,10 +21,16 @@ const pillars = [
   { icon: '🔬', title: 'R&D Department', desc: 'Engineering tomorrow\'s breakthroughs today' },
 ]
 
-export default function Home({ onQuoteOpen }) {
+export default function Home({ onQuoteOpen, onRFQOpen, onFinderOpen }) {
   const [slide, setSlide] = useState(0)
   const [activeTab, setActiveTab] = useState('NDT Products')
   const intervalRef = useRef()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -96,22 +102,23 @@ export default function Home({ onQuoteOpen }) {
                 transition={{ delay: 0.4 }}
                 className="flex flex-wrap gap-4"
               >
-                <Link
-                  to={heroSlides[slide].link}
+                <button
+                  onClick={onFinderOpen}
                   className="bg-[#e8421a] text-white px-7 py-3.5 rounded font-semibold flex items-center gap-2 hover:bg-[#c93614] transition-colors"
                 >
-                  Explore More <ArrowRight size={18} />
-                </Link>
+                  Product Finder Wizard <ArrowRight size={18} />
+                </button>
                 <button
-                  onClick={onQuoteOpen}
+                  onClick={() => onRFQOpen()}
                   className="border border-white/40 text-white px-7 py-3.5 rounded font-semibold hover:bg-white/10 transition-colors"
                 >
-                  Get Quote
+                  Request Quote (RFQ)
                 </button>
               </motion.div>
             </div>
           </motion.div>
         </AnimatePresence>
+
 
         {/* Slide controls */}
         <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
