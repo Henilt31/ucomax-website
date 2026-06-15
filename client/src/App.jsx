@@ -16,6 +16,7 @@ import ProductFinder from './components/ProductFinder'
 import RFQModal from './components/RFQModal'
 import WhatsAppWidget from './components/WhatsAppWidget'
 import ResourceCenter from './pages/ResourceCenter'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
   const [quoteOpen, setQuoteOpen] = useState(false)
@@ -31,7 +32,9 @@ export default function App() {
   return (
     <CompareProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <div className="flex flex-col min-h-screen">
+
           <Navbar
             onQuoteOpen={() => setQuoteOpen(true)}
             onRFQOpen={() => handleOpenRFQ()}

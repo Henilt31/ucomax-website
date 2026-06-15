@@ -278,7 +278,7 @@ export default function Home({ onQuoteOpen, onRFQOpen, onFinderOpen }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {homeProducts[activeTab].map((item, i) => (
                 <motion.div
@@ -289,15 +289,19 @@ export default function Home({ onQuoteOpen, onRFQOpen, onFinderOpen }) {
                 >
                   <Link
                     to={item.href}
-                    className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md hover:border-[#e8421a] border border-transparent transition-all group"
+                    className="flex items-center gap-4 bg-white rounded-xl p-5 shadow-sm hover:shadow-lg hover:border-[#e8421a]/50 border border-gray-100 transition-all duration-300 group relative overflow-hidden"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[#1a3a5c]/10 flex items-center justify-center flex-shrink-0">
-                      <div className="w-3 h-3 rounded-full bg-[#e8421a]" />
+                    <div className="absolute top-0 left-0 w-1.5 h-full bg-[#1a3a5c] group-hover:bg-[#e8421a] transition-colors duration-300" />
+                    <div className="w-10 h-10 rounded-lg bg-[#1a3a5c]/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#e8421a]/10 transition-colors duration-300">
+                      <span className="text-lg text-[#1a3a5c] group-hover:text-[#e8421a] transition-colors duration-300 font-bold">🛠️</span>
                     </div>
-                    <span className="text-[#1a3a5c] font-medium text-sm group-hover:text-[#e8421a] transition-colors">
-                      {item.name}
-                    </span>
-                    <ChevronRight size={16} className="ml-auto text-gray-300 group-hover:text-[#e8421a] transition-colors" />
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-[#1a3a5c] font-bold text-sm leading-snug group-hover:text-[#e8421a] transition-colors duration-300 truncate" style={{ fontFamily: 'Rajdhani' }}>
+                        {item.name}
+                      </h4>
+                      <p className="text-gray-400 text-xs mt-0.5">Explore Category</p>
+                    </div>
+                    <ChevronRight size={16} className="text-gray-300 group-hover:text-[#e8421a] group-hover:translate-x-1 transition-all" />
                   </Link>
                 </motion.div>
               ))}
@@ -305,6 +309,7 @@ export default function Home({ onQuoteOpen, onRFQOpen, onFinderOpen }) {
           </AnimatePresence>
         </div>
       </AnimatedSection>
+
 
       {/* Services section */}
       <AnimatedSection className="py-16">
