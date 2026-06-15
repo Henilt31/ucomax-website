@@ -1,138 +1,174 @@
-# UCOMAX Website – Full Stack Rebuild
+# ⚙️ UCOMAX Website Enhancement
 
-## Tech Stack
-- **Frontend**: React 18, Vite, Framer Motion, Three.js (@react-three/fiber), Tailwind CSS, React Router v6
-- **Backend**: Node.js, Express, MongoDB (Mongoose), Nodemailer
-- **Design**: Rajdhani + Inter fonts, UCOMAX brand colors (#1a3a5c navy, #e8421a red)
+Modern full-stack industrial engineering platform built with React, Node.js, MongoDB, and modern web technologies.
 
 ---
 
-## Project Structure
-```
-ucomax/
-├── client/          # React frontend (Vite)
-│   ├── src/
-│   │   ├── components/   Navbar, Footer, QuoteModal, ThreeBackground, AnimatedSection
-│   │   ├── pages/        Home, About, Contact, CategoryPage, ProductPage
-│   │   ├── data/         catalog.js (all nav + product data)
-│   │   └── App.jsx
-│   └── package.json
-└── server/          # Node.js + Express backend
-    ├── src/
-    │   ├── index.js   (main server)
-    │   └── models.js  (Quote + Contact schemas)
-    ├── .env.example
-    └── package.json
-```
+## 🚀 Overview
+
+UCOMAX Website Enhancement is a modern industrial product showcase platform designed to improve product discovery, lead generation, and customer engagement.
+
+The platform provides an intuitive user experience through a structured product catalog, quote request system, responsive design, and modern UI components.
 
 ---
 
-## Setup Instructions
+## ✨ Features
 
-### 1. Install Dependencies
+### 🔍 Product Discovery
 
-```bash
-# Frontend
-cd client
-npm install
+* Product Finder Wizard
+* Product Catalog System
+* Product Detail Pages
+* Category-Based Navigation
+* Search Functionality
 
-# Backend
-cd ../server
-npm install
-```
+### 📋 Lead & Quote Management
 
-### 2. Configure Backend
+* Request For Quote (RFQ) System
+* MongoDB Lead Storage
+* Email Notifications
+* Contact Form Integration
 
-```bash
-cd server
-cp .env.example .env
-# Edit .env with your MongoDB URI and SMTP credentials
-```
+### 🎨 User Experience
 
-**MongoDB options:**
-- Local: `mongodb://localhost:27017/ucomax`
-- Atlas: `mongodb+srv://<user>:<pass>@cluster.mongodb.net/ucomax`
+* Responsive Design
+* Mega Navigation Menu
+* Three.js Animated Hero Section
+* Framer Motion Animations
+* WhatsApp Integration
 
-**Email (Gmail example):**
-- Enable 2FA on your Gmail account
-- Create an App Password at https://myaccount.google.com/apppasswords
-- Use that as `SMTP_PASS`
+### 📚 Resources
 
-### 3. Run in Development
-
-```bash
-# Terminal 1 – Backend
-cd server
-npm run dev
-
-# Terminal 2 – Frontend
-cd client
-npm run dev
-```
-
-Frontend: http://localhost:5173  
-Backend API: http://localhost:5000
-
-### 4. Build for Production
-
-```bash
-cd client
-npm run build
-# Outputs to client/dist/
-```
-
-Serve the `dist/` folder via nginx or any static host, and run the Node.js backend with PM2:
-
-```bash
-npm install -g pm2
-cd server
-pm2 start src/index.js --name ucomax-api
-```
+* Resource Center
+* Technical Documentation Access
+* Service Information Pages
 
 ---
 
-## Features
+## 🛠️ Technology Stack
 
 ### Frontend
-- ✅ Full mega dropdown navigation (matches ucomax.com exactly)
-- ✅ Hero slider with Three.js animated background (particles, grid, floating ring)
-- ✅ Framer Motion scroll-triggered animations (slide-up from below)
-- ✅ Stats bar, pillars, virtual tour, product tabs, services grid
-- ✅ About page with all content from original site
-- ✅ Contact page with Google Maps embed
-- ✅ Quote modal (floating trigger on every page)
-- ✅ WhatsApp floating button
-- ✅ Mobile-responsive sliding drawer nav
-- ✅ Product & Category pages
-- ✅ Search overlay
+
+* React 18
+* Vite
+* Tailwind CSS
+* Framer Motion
+* Three.js
+* React Router
 
 ### Backend
-- ✅ Quote request endpoint → saves to MongoDB + sends email
-- ✅ Contact form endpoint → saves to MongoDB + sends email
-- ✅ Input validation with express-validator
-- ✅ Rate limiting (20 requests / 15 min)
-- ✅ Helmet security headers
-- ✅ Admin endpoints for reading leads
+
+* Node.js
+* Express.js
+* MongoDB
+* Nodemailer
 
 ---
 
-## Brand Colors
-- **Navy**: `#1a3a5c`
-- **Dark Navy**: `#0d1f33`
-- **Red/Orange (accent)**: `#e8421a`
-- **Light BG**: `#f4f7fb`
+## 📁 Project Structure
 
-## Logo/Favicon
-The UCOMAX logo and favicon are loaded directly from:
-- `https://www.ucomax.com/assets/img/logo-header.png`
-- `https://www.ucomax.com/assets/img/logo-footer.png`
-
-> ⚠️ For production, download and host these locally in `client/public/`.
+```text
+ucomax/
+├── client/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/
+│   ├── src/
+│   ├── package.json
+│   ├── .env.example
+│   └── index.js
+│
+├── .gitignore
+└── README.md
+```
 
 ---
 
-## Contact Info (hardcoded in all pages)
-- **Address**: 989/16/2, First Floor Near Gayatri Krupa Ice Industries, Makarpura, Vadodara, Gujarat – 390010
-- **Phone**: +91 63588 33112
-- **Email**: sales@ucomax.com
-- **WhatsApp**: https://wa.me/916358833112
+## ⚙️ Installation
+
+### Frontend
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+### Backend
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file using `.env.example`.
+
+Example:
+
+```env
+PORT=5000
+
+MONGODB_URI=YOUR_MONGODB_CONNECTION_STRING
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=YOUR_EMAIL
+SMTP_PASS=YOUR_APP_PASSWORD
+
+CLIENT_ORIGIN=http://localhost:5173
+```
+
+---
+
+## 🌐 Deployment
+
+### Frontend
+
+* Vercel
+
+### Backend
+
+* Render
+
+### Database
+
+* MongoDB Atlas
+
+---
+
+## 📸 Screenshots
+
+Screenshots and project previews will be added after deployment.
+
+---
+
+## 🔮 Future Improvements
+
+* Admin Dashboard
+* Product Comparison System
+* Analytics Dashboard
+* Inventory Integration
+* Multi-language Support
+* Advanced Search & Filtering
+* CMS Integration
+
+---
+
+## 👨‍💻 Developer
+
+**Henil Thakkar**
+
+GitHub:
+https://github.com/Henilt31
+
+---
+
+⭐ Built using modern full-stack technologies with a focus on performance, scalability, and user experience.
